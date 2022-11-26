@@ -9,16 +9,25 @@ const Title = () => {
     const breakReducer = useSelector(state => state.breakReducer);
     const sessionReducer =  useSelector(state => state.sessionReducer);
     let duration = sessionReducer.duration;
+    let timeout = breakReducer.timeout;
     const dispatch = useDispatch();
     const handleIncreaseBreak = () =>{
         if(breakReducer.isEnabled){
             dispatch(breakActions.increase());
+            if(timeout < 60){
+                ++timeout;
+                dispatch(timerActions.changeSecondsLeft(timeout*60));
+            }
 
         }
     }
     const handleDecreaseBreak = () =>{
         if(breakReducer.isEnabled){
             dispatch(breakActions.decrease());
+            if(timeout > 1){
+                --timeout;
+                dispatch(timerActions.changeSecondsLeft(timeout*60));
+            }
         }
 
     }

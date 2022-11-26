@@ -17,6 +17,10 @@ const breakSlice = createSlice({
         },
         handleIsEnabled(state, action){
             state.isEnabled = action.payload;
+        },
+        handleReset(state){
+            state.isEnabled = true;
+            state.timeout = 5;
         }
 
     }

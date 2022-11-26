@@ -9,6 +9,8 @@ import { sessionActions } from "../store/sessionSlice";
 import { breakActions } from "../store/breakSlice";
 import sound from "../assets/mixkit-alarm-digital-clock-beep-989.wav";
 
+let  interval;
+
 const Timer = () => {
     const timer = useSelector(state => state.timerReducer);
     const breakReducer = useSelector(state => state.breakReducer);
@@ -16,26 +18,33 @@ const Timer = () => {
     const minutes = Math.floor(timer.secondsLeft/60);
     const seconds = timer.secondsLeft % 60;
 
+
     const dispatch = useDispatch();
     const handleStop = () =>{
         dispatch(timerActions.changeIsRunning(false));
         dispatch(sessionActions.handleIsEnabled(true));
         dispatch(breakActions.handleIsEnabled(true));
+        clearInterval(interval);
     }
 
     const handleStart = () => {
         dispatch(timerActions.changeIsRunning(true));
         dispatch(sessionActions.handleIsEnabled(false));
         dispatch(breakActions.handleIsEnabled(false));
-        setInterval(() => {
+        interval = setInterval(() => {
             dispatch(timerActions.reduceSecondsLeft());
+       }, 1000);
 
-        }, 1000);
+
     }
 
     const handleReset = () => {
         dispatch(timerActions.changeIsRunning(false));
         dispatch(timerActions.changeIsSession(true));
+        dispatch(breakActions.handleReset());
+        dispatch(sessionActions.handleReset());
+        dispatch(timerActions.changeSecondsLeft(25 * 60));
+        clearInterval(interval);
     }
 
     useEffect(() => {
@@ -56,6 +65,14 @@ const Timer = () => {
                 if(alarm.currentTime > 4) alarm.pause();
             }
             alarm.play();
+        }
+        else if(timer.secondsLeft < 60){
+            document.getElementById("timer-label").classList.add("red-text");
+            document.getElementById("time-left").classList.add("red-text");
+        }
+        else if(timer.secondsLeft >= 60){
+            document.getElementById("timer-label").classList.remove("red-text");
+            document.getElementById("time-left").classList.remove("red-text");
         }
         document.getElementById("minutes").textContent = minutes.toString().padStart(2, "0");
         document.getElementById("seconds").textContent = seconds.toString().padStart(2, "0");

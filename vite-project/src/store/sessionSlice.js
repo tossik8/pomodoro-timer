@@ -17,6 +17,10 @@ const sessionSlice = createSlice({
         },
         handleIsEnabled(state, action){
             state.isEnabled = action.payload;
+        },
+        handleReset(state){
+            state.duration = 25;
+            state.isEnabled = true;
         }
     }
 });
