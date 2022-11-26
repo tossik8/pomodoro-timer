@@ -1,9 +1,6 @@
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+
 }
 
 *{
@@ -13,9 +10,15 @@
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  justify-content: center;
+  align-items: center;
   min-height: 100vh;
   color: rgb(255,255,255);
   background-color: #2A3D45;
+  overflow: hidden;
+}
+@media screen and (max-width: 450px){
+  body{
+    margin: 0 auto;
+  }
 }
