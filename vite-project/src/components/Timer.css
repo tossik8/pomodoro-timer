@@ -29,3 +29,6 @@
     cursor: pointer;
     transform: scale(1.2);
 }
+.red-text{
+    color: rgb(200, 77,88);
+}

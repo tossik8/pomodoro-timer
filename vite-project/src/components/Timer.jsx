@@ -11,6 +11,10 @@ import sound from "../assets/mixkit-alarm-digital-clock-beep-989.wav";
 import "./Timer.css";
 
 let  interval;
+let alarm = new Audio(sound);
+alarm.ontimeupdate = () => {
+    if(alarm.currentTime > 4) alarm.pause();
+}
 
 const Timer = () => {
     const timer = useSelector(state => state.timerReducer);
@@ -25,6 +29,8 @@ const Timer = () => {
         dispatch(sessionActions.handleIsEnabled(true));
         dispatch(breakActions.handleIsEnabled(true));
         clearInterval(interval);
+        alarm.pause();
+        alarm.currentTime = 0;
     }
 
     const handleStart = () => {
@@ -43,25 +49,22 @@ const Timer = () => {
         dispatch(sessionActions.handleReset());
         dispatch(timerActions.changeSecondsLeft(25 * 60));
         clearInterval(interval);
+        alarm.pause();
+        alarm.currentTime = 0;
+
     }
 
     useEffect(() => {
+
         if(timer.secondsLeft === -1 && timer.isSession){
             dispatch(timerActions.changeIsSession(false));
             dispatch(timerActions.changeSecondsLeft(timer.timeoutSeconds));
-            let alarm = new Audio(sound);
-            alarm.ontimeupdate = () => {
-                if(alarm.currentTime > 4) alarm.pause();
-            }
+
             alarm.play();
         }
         else if(timer.secondsLeft === -1 && !timer.isSession){
             dispatch(timerActions.changeIsSession(true));
             dispatch(timerActions.changeSecondsLeft(timer.sessionSeconds));
-            let alarm = new Audio(sound);
-            alarm.ontimeupdate = () => {
-                if(alarm.currentTime > 4) alarm.pause();
-            }
             alarm.play();
         }
         else if(timer.secondsLeft < 60){
@@ -72,6 +75,7 @@ const Timer = () => {
             document.getElementById("timer-label").classList.remove("red-text");
             document.getElementById("time-left").classList.remove("red-text");
         }
+
         document.getElementById("minutes").textContent = minutes.toString().padStart(2, "0");
         document.getElementById("seconds").textContent = seconds.toString().padStart(2, "0");
     }, [timer.isSession, breakReducer.timeout, session.duration, timer.secondsLeft]);
