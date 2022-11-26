@@ -19,7 +19,6 @@ const Timer = () => {
     const minutes = Math.floor(timer.secondsLeft/60);
     const seconds = timer.secondsLeft % 60;
 
-
     const dispatch = useDispatch();
     const handleStop = () =>{
         dispatch(timerActions.changeIsRunning(false));
@@ -49,7 +48,7 @@ const Timer = () => {
     useEffect(() => {
         if(timer.secondsLeft === -1 && timer.isSession){
             dispatch(timerActions.changeIsSession(false));
-            dispatch(timerActions.changeSecondsLeft(breakReducer.timeout * 60));
+            dispatch(timerActions.changeSecondsLeft(timer.timeoutSeconds));
             let alarm = new Audio(sound);
             alarm.ontimeupdate = () => {
                 if(alarm.currentTime > 4) alarm.pause();
@@ -58,7 +57,7 @@ const Timer = () => {
         }
         else if(timer.secondsLeft === -1 && !timer.isSession){
             dispatch(timerActions.changeIsSession(true));
-            dispatch(timerActions.changeSecondsLeft(session.duration * 60));
+            dispatch(timerActions.changeSecondsLeft(timer.sessionSeconds));
             let alarm = new Audio(sound);
             alarm.ontimeupdate = () => {
                 if(alarm.currentTime > 4) alarm.pause();

@@ -11,22 +11,30 @@ const Title = () => {
     const sessionReducer =  useSelector(state => state.sessionReducer);
     let duration = sessionReducer.duration;
     let timeout = breakReducer.timeout;
+    const isSession = useSelector(state => state.timerReducer.isSession);
     const dispatch = useDispatch();
     const handleIncreaseBreak = () =>{
         if(breakReducer.isEnabled){
             dispatch(breakActions.increase());
             if(timeout < 60){
                 ++timeout;
-                dispatch(timerActions.changeSecondsLeft(timeout*60));
+                dispatch(timerActions.changeTimeoutSeconds(timeout*60));
+                if(!isSession){
+                    dispatch(timerActions.changeSecondsLeft(timeout * 60))
+                }
             }
         }
+
     }
     const handleDecreaseBreak = () =>{
         if(breakReducer.isEnabled){
             dispatch(breakActions.decrease());
             if(timeout > 1){
                 --timeout;
-                dispatch(timerActions.changeSecondsLeft(timeout*60));
+                dispatch(timerActions.changeTimeoutSeconds(timeout*60));
+                if(!isSession){
+                    dispatch(timerActions.changeSecondsLeft(timeout * 60))
+                }
             }
         }
 
@@ -36,7 +44,10 @@ const Title = () => {
             dispatch(sessionActions.increase());
             if(duration < 60){
                 ++duration;
-                dispatch(timerActions.changeSecondsLeft(duration * 60));
+                dispatch(timerActions.changeSessionSeconds(duration * 60));
+                if(isSession){
+                    dispatch(timerActions.changeSecondsLeft(duration * 60))
+                }
             }
         }
 
@@ -46,7 +57,10 @@ const Title = () => {
             dispatch(sessionActions.decrease());
             if(duration > 1){
                 --duration;
-                dispatch(timerActions.changeSecondsLeft(duration * 60));
+                dispatch(timerActions.changeSessionSeconds(duration * 60));
+                if(isSession){
+                    dispatch(timerActions.changeSecondsLeft(duration * 60))
+                }
             }
         }
     }
