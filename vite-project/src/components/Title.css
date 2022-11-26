@@ -1,0 +1,35 @@
+.controllers{
+    display: flex;
+    gap: 5rem;
+}
+.leftController, .rightController{
+    display: flex;
+    flex-direction: column;
+}
+.leftDuration, .rightDuration{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#break-label, #session-label, #session-length, #break-length{
+    font-size: 1.6rem;
+    font-weight: 500;
+    user-select: none;
+}
+h1{
+    font-size: 3rem;
+    user-select: none;
+}
+#session-length, #break-length{
+    margin: 0 1.2rem;
+    user-select: none;
+
+}
+.controller{
+    font-size: 1.6rem;
+    cursor: pointer;
+
+}
+.controller:hover{
+    transform: scale(1.2);
+}

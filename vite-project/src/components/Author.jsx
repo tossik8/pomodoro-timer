@@ -1,3 +1,5 @@
+import "./Author.css";
+
 const Author = () => {
     return (
     <footer className="author-footer">

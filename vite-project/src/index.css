@@ -16,4 +16,6 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  color: rgb(255,255,255);
+  background-color: rgb(180, 122, 234);
 }

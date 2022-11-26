@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { sessionActions } from "../store/sessionSlice";
 import { breakActions } from "../store/breakSlice";
 import sound from "../assets/mixkit-alarm-digital-clock-beep-989.wav";
+import "./Timer.css";
 
 let  interval;
 
@@ -34,8 +35,6 @@ const Timer = () => {
         interval = setInterval(() => {
             dispatch(timerActions.reduceSecondsLeft());
        }, 1000);
-
-
     }
 
     const handleReset = () => {
@@ -80,7 +79,7 @@ const Timer = () => {
 
 
     return (
-    <div>
+    <div className="timer-div">
         <div className="time-div">
             {timer.isSession?(
                 <div>
@@ -93,15 +92,11 @@ const Timer = () => {
                     <p id="time-left"><span id="minutes">{minutes}</span>:<span id="seconds">{seconds}</span></p>
                 </div>
             )}
-
-
         </div>
         <div className="controllers">
             {timer.isRunning? <FontAwesomeIcon onClick={handleStop} id="start_stop" icon={faPause}/>:<FontAwesomeIcon onClick={handleStart} id="start_stop" icon={faPlay}/>}
-            <FontAwesomeIcon onClick={handleReset} icon={faArrowsRotate} />
+            <FontAwesomeIcon id="reset" onClick={handleReset} icon={faArrowsRotate} />
         </div>
-
-
     </div>
     );
 }

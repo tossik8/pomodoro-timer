@@ -1,0 +1,31 @@
+.timer-div{
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    margin-top: 2rem;
+}
+.time-div{
+    border: 4px solid rgb(123, 205, 186);
+    border-radius: 4rem;
+    width: 16rem;
+    user-select: none;
+}
+#time-left{
+    font-size: 3.5rem;
+    margin: -1rem 0 1rem;
+}
+
+.controllers{
+    font-size: 2rem;
+    margin: 1rem;
+}
+#reset{
+    margin-left: -2rem;
+}
+#start_stop{
+    margin-right: -2rem;
+}
+#start_stop:hover, #reset:hover{
+    cursor: pointer;
+    transform: scale(1.2);
+}

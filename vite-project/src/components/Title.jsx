@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { breakActions } from "../store/breakSlice";
 import { sessionActions } from "../store/sessionSlice";
 import { timerActions } from "../store/timerSlice";
+import "./Title.css";
 
 const Title = () => {
     const breakReducer = useSelector(state => state.breakReducer);
@@ -18,7 +19,6 @@ const Title = () => {
                 ++timeout;
                 dispatch(timerActions.changeSecondsLeft(timeout*60));
             }
-
         }
     }
     const handleDecreaseBreak = () =>{
@@ -48,8 +48,6 @@ const Title = () => {
                 --duration;
                 dispatch(timerActions.changeSecondsLeft(duration * 60));
             }
-
-
         }
     }
     return (
@@ -60,20 +58,17 @@ const Title = () => {
                 <label id="break-label">Break Length</label>
                 <div className="leftDuration">
                     <FontAwesomeIcon id="break-decrement" className="controller" onClick={handleDecreaseBreak} icon={faArrowDown} />
-                    <p>{breakReducer.timeout}</p>
+                    <p id="break-length">{breakReducer.timeout}</p>
                     <FontAwesomeIcon id="break-increment" className="controller" onClick={handleIncreaseBreak} icon={faArrowUp} />
                 </div>
-
             </div>
             <div className="rightController">
                 <label id="session-label">Session Length</label>
                 <div className="rightDuration">
                     <FontAwesomeIcon id="session-decrement" className="controller" onClick={handleDecreaseSession} icon={faArrowDown} />
-                    <p>{sessionReducer.duration}</p>
+                    <p id="session-length">{sessionReducer.duration}</p>
                     <FontAwesomeIcon id="session-increment" className="controller" onClick={handleIncreaseSession} icon={faArrowUp} />
                 </div>
-
-
             </div>
         </div>
     </div> );
