@@ -5,7 +5,7 @@ const timerSlice = createSlice({
     initialState: {
         isSession: true,
         isRunning: false,
-        secondsLeft: 2,
+        secondsLeft: 1500,
         sessionSeconds: 1500,
         timeoutSeconds: 300
     },
