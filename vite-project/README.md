@@ -1,3 +1,3 @@
 # Live Website
 
-[Pomodoro Timer](https://best-pomodoro-timer.azurewebsites.net/);
+[Pomodoro Timer](https://best-pomodoro-timer.azurewebsites.net/)
