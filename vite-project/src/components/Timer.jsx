@@ -11,12 +11,10 @@ import sound from "../assets/mixkit-alarm-digital-clock-beep-989.wav";
 import "./Timer.css";
 
 let  interval;
-let alarm = new Audio(sound);
-alarm.ontimeupdate = () => {
-    if(alarm.currentTime > 4) alarm.pause();
-}
+
 
 const Timer = () => {
+
     const timer = useSelector(state => state.timerReducer);
     const breakReducer = useSelector(state => state.breakReducer);
     const session = useSelector(state => state.sessionReducer);
@@ -24,13 +22,18 @@ const Timer = () => {
     const seconds = timer.secondsLeft % 60;
 
     const dispatch = useDispatch();
+    window.onbeforeunload = () => {
+        dispatch(timerActions.changeIsRunning(false));
+        dispatch(sessionActions.handleIsEnabled(true));
+        dispatch(breakActions.handleIsEnabled(true));
+    }
     const handleStop = () =>{
         dispatch(timerActions.changeIsRunning(false));
         dispatch(sessionActions.handleIsEnabled(true));
         dispatch(breakActions.handleIsEnabled(true));
         clearInterval(interval);
-        alarm.pause();
-        alarm.currentTime = 0;
+        document.getElementById("sound").pause();
+        document.getElementById("sound").currentTime = 0;
     }
 
     const handleStart = () => {
@@ -49,23 +52,26 @@ const Timer = () => {
         dispatch(sessionActions.handleReset());
         dispatch(timerActions.changeSecondsLeft(25 * 60));
         clearInterval(interval);
-        alarm.pause();
-        alarm.currentTime = 0;
-
+        document.getElementById("sound").pause();
+        document.getElementById("sound").currentTime = 0;
     }
 
-    useEffect(() => {
 
+    useEffect(() => {
+        document.getElementById("sound").ontimeupdate = () => {
+            if(document.getElementById("sound").currentTime > 4) document.getElementById("sound").pause();
+        }
         if(timer.secondsLeft === -1 && timer.isSession){
             dispatch(timerActions.changeIsSession(false));
             dispatch(timerActions.changeSecondsLeft(timer.timeoutSeconds));
-
-            alarm.play();
+            document.getElementById("sound").load();
+            document.getElementById("sound").play();
         }
         else if(timer.secondsLeft === -1 && !timer.isSession){
             dispatch(timerActions.changeIsSession(true));
             dispatch(timerActions.changeSecondsLeft(timer.sessionSeconds));
-            alarm.play();
+            document.getElementById("sound").load();
+            document.getElementById("sound").play();
         }
         else if(timer.secondsLeft < 60){
             document.getElementById("timer-label").classList.add("red-text");
@@ -100,6 +106,7 @@ const Timer = () => {
             {timer.isRunning? <FontAwesomeIcon onClick={handleStop} id="start_stop" icon={faPause}/>:<FontAwesomeIcon onClick={handleStart} id="start_stop" icon={faPlay}/>}
             <FontAwesomeIcon id="reset" onClick={handleReset} icon={faArrowsRotate} />
         </div>
+        <audio id="sound" src={sound}/>
     </div>
     );
 }
